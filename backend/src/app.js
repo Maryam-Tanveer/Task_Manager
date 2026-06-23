@@ -7,10 +7,7 @@ const swaggerSpec = require('./config/swagger');
 
 const app = express();
 
-// Security Middleware
-app.use(helmet());
-
-// CORS Configuration
+// CORS Configuration (MUST be before Helmet)
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5173',
@@ -22,11 +19,20 @@ if (process.env.FRONTEND_URL) {
   allowedOrigins.push(process.env.FRONTEND_URL);
 }
 
-app.use(cors({
+const corsOptions = {
   origin: allowedOrigins,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+// Handle preflight OPTIONS requests explicitly (required for Vercel serverless)
+app.options('*', cors(corsOptions));
+app.use(cors(corsOptions));
+
+// Security Middleware (after CORS so it doesn't override CORS headers)
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
 }));
 
 // Body Parser Middleware
