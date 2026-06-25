@@ -8,16 +8,41 @@ const swaggerSpec = require('./config/swagger');
 const app = express();
 
 // CORS Configuration (MUST be before Helmet)
+
+
+
+
+
+
+
+
+
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5173',
   'http://127.0.0.1:5173',
 ];
 
-// Add deployed frontend URL from environment variable
+// Add deployed frontend URLs from environment variables
 if (process.env.FRONTEND_URL) {
   allowedOrigins.push(process.env.FRONTEND_URL);
 }
+
+if (process.env.CORS_ORIGIN) {
+  allowedOrigins.push(process.env.CORS_ORIGIN);
+}
+
+// Add specific Vercel frontend URL
+if (!allowedOrigins.includes('https://task-manager-drab-eta.vercel.app')) {
+  allowedOrigins.push('https://task-manager-drab-eta.vercel.app');
+}
+
+// Log allowed origins in production
+console.log('✅ CORS Allowed Origins:', allowedOrigins);
+
+
+
+
 
 const corsOptions = {
   origin: (origin, callback) => {
