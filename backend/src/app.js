@@ -20,7 +20,27 @@ if (process.env.FRONTEND_URL) {
 }
 
 const corsOptions = {
-  origin: allowedOrigins,
+  origin: (origin, callback) => {
+    // Allow requests with no origin (e.g., mobile apps, curl)
+    if (!origin) return callback(null, true);
+
+    // Allow explicit allowed origins
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+
+    // Allow Vercel deployments (frontend on *.vercel.app)
+    try {
+      const vercelMatch = /(^https:\/\/.*\.vercel\.app$)/i.test(origin);
+      if (vercelMatch) return callback(null, true);
+    } catch (e) {
+      // fall through to deny
+    }
+
+    // Allow when FRONTEND_URL env var matches
+    if (process.env.FRONTEND_URL && origin === process.env.FRONTEND_URL) return callback(null, true);
+
+    // Deny other origins
+    return callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
