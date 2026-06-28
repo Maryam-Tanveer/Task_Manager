@@ -21,7 +21,8 @@ const connectDB = async () => {
   const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/store-db';
   logger.info(`Connecting to MongoDB: ${mongoURI}`);
 
-  mongoose.set('bufferCommands', false);
+  // Allow Mongoose to buffer commands while the initial connection is being established.
+  mongoose.set('bufferCommands', true);
   mongoose.set('strictQuery', false);
 
   cached.promise = mongoose
