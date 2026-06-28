@@ -125,6 +125,16 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
  *                   type: string
  *                   format: date-time
  */
+// Root Route
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Task Manager Backend API is running successfully',
+    health: '/health',
+    documentation: '/api-docs'
+  });
+});
+
 // Health Check Route
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
