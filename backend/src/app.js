@@ -63,8 +63,9 @@ const corsOptions = {
     // Allow when FRONTEND_URL env var matches
     if (process.env.FRONTEND_URL && origin === process.env.FRONTEND_URL) return callback(null, true);
 
-    // Deny other origins
-    return callback(new Error('Not allowed by CORS'));
+    // Deny other origins cleanly without throwing an Express error
+    console.warn(`⚠️ CORS blocked request from origin: ${origin}`);
+    return callback(null, false);
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],

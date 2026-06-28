@@ -29,7 +29,8 @@ const connectDB = async () => {
     return conn;
   } catch (error) {
     logger.error(`❌ MongoDB connection failed: ${error.message}`);
-    process.exit(1);
+    // DO NOT crash the serverless container on database connection failure
+    // process.exit(1);
   }
 };
 
