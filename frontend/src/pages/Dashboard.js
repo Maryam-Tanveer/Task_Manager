@@ -15,15 +15,41 @@ export default function Dashboard() {
   const [sidebarActive, setSidebarActive] = useState('dashboard')
   const navigate = useNavigate()
 
-  const fetchTasks = useCallback(async () => {
-    try {
-      const params = filter !== 'all' ? { status: filter } : {}
-      const { data } = await api.get('/tasks', { params })
-      setTasks(data)
-    } catch {
-      navigate('/login')
+  
+  
+  
+
+
+ const fetchTasks = useCallback(async () => {
+  try {
+    const params = filter !== "all" ? { status: filter } : {};
+
+    const response = await api.get("/tasks", { params });
+
+    console.log("Tasks API Response:", response.data);
+
+    if (Array.isArray(response.data)) {
+      setTasks(response.data);
+    } else if (
+      response.data &&
+      Array.isArray(response.data.data)
+    ) {
+      setTasks(response.data.data);
+    } else {
+      console.error("Expected an array but got:", response.data);
+      setTasks([]);
     }
-  }, [filter, navigate])
+  } catch (error) {
+    console.error(error);
+    setTasks([]);
+    navigate("/login");
+  }
+}, [filter, navigate]);
+
+
+
+
+
 
   useEffect(() => {
     fetchTasks()
@@ -43,12 +69,15 @@ export default function Dashboard() {
   // Derived counts
   const counts = useMemo(() => {
     const today = new Date().toDateString()
+
+    const safeTasks = Array.isArray(tasks) ? tasks : [];
+    
     return {
-      all: tasks.length,
-      todo: tasks.filter((t) => t.status === 'todo').length,
-      'in-progress': tasks.filter((t) => t.status === 'in-progress').length,
-      done: tasks.filter((t) => t.status === 'done').length,
-      dueToday: tasks.filter(
+      all: safeTasks.length,
+      todo: safeTasks.filter((t) => t.status === 'todo').length,
+      'in-progress': safeTasks.filter((t) => t.status === 'in-progress').length,
+      done: safeTasks.filter((t) => t.status === 'done').length,
+      dueToday: safeTasks.filter(
         (t) => t.dueDate && new Date(t.dueDate).toDateString() === today
       ).length,
     }
@@ -56,7 +85,11 @@ export default function Dashboard() {
 
   // Filter tasks for display
   const displayTasks = useMemo(() => {
-    let filtered = tasks
+
+
+    let filtered = Array.isArray(tasks) ? tasks : [];
+
+
     if (sidebarActive === 'in-progress') {
       filtered = filtered.filter((t) => t.status === 'in-progress')
     } else if (sidebarActive === 'completed') {
