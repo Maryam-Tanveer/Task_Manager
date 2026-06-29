@@ -1,33 +1,34 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-const isVercel = process.env.VERCEL === '1' || !!process.env.VERCEL;
+// Check if running on Vercel
+const isVercel = process.env.VERCEL === "1" || !!process.env.VERCEL;
 
-let logFile;
+let logFile = null;
+
+// Create logs folder only when NOT on Vercel
 if (!isVercel) {
-  // Create logs directory if it doesn't exist
-  const logsDir = path.join(__dirname, '../../logs');
-  if (!fs.existsSync(logsDir)) {
-    fs.mkdirSync(logsDir, { recursive: true });
+  const logDir = path.join(__dirname, "../../logs");
+
+  if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir, { recursive: true });
   }
-  logFile = path.join(logsDir, 'app.log');
+
+  logFile = path.join(logDir, "app.log");
 }
 
 /**
  * Log levels
  */
 const levels = {
-  error: 'ERROR',
-  warn: 'WARN',
-  info: 'INFO',
-  debug: 'DEBUG',
+  error: "ERROR",
+  warn: "WARN",
+  info: "INFO",
+  debug: "DEBUG",
 };
 
 /**
  * Format log message
- * @param {string} level - Log level
- * @param {string} message - Log message
- * @returns {string} Formatted log message
  */
 const formatLog = (level, message) => {
   const timestamp = new Date().toISOString();
@@ -35,22 +36,20 @@ const formatLog = (level, message) => {
 };
 
 /**
- * Write log to file and console
- * @param {string} level - Log level
- * @param {string} message - Log message
+ * Write log to console and file
  */
 const writeLog = (level, message) => {
   const formattedLog = formatLog(level, message);
 
-  // Console output
+  // Always log to console
   console.log(formattedLog);
 
-  // File output (skip on Vercel read-only filesystem)
+  // Write to file only when not on Vercel
   if (!isVercel && logFile) {
     try {
       fs.appendFileSync(logFile, `${formattedLog}\n`);
     } catch (err) {
-      console.error('Error writing to log file:', err);
+      console.error("Error writing to log file:", err);
     }
   }
 };
