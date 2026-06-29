@@ -193,16 +193,16 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#faf8f4] p-4 md:p-8">
+    <div className="min-h-screen bg-[#faf8f4] p-2 sm:p-4 md:p-8">
       {/* Outer dashed card container */}
-      <div className="max-w-7xl mx-auto border-2 border-dashed border-gray-300 rounded-2xl bg-white min-h-[calc(100vh-4rem)] flex flex-col">
+      <div className="max-w-7xl mx-auto border-2 border-dashed border-gray-300 rounded-xl sm:rounded-2xl bg-white min-h-[calc(100vh-3rem)] sm:min-h-[calc(100vh-4rem)] flex flex-col">
         {/* Navbar */}
         <Navbar setSidebarOpen={setSidebarOpen}/>
 
         {/* Body: Sidebar + Content */}
         <div className="flex flex-col lg:flex-row flex-1 overflow-hidden">
           {/* ====== LEFT SIDEBAR ====== */}
-          <aside className="hidden lg:flex w-60 border-r border-gray-200 p-5 flex-col shrink-0">
+          <aside className="hidden lg:flex w-48 xl:w-60 border-r border-gray-200 p-3 xl:p-5 flex-col shrink-0 overflow-y-auto">
             {/* MENU Section */}
             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">
               Menu
@@ -285,9 +285,9 @@ export default function Dashboard() {
           </aside>
 
           {/* ====== MAIN CONTENT ====== */}
-          <main className="flex-1 p-6 overflow-y-auto">
+          <main className="flex-1 p-3 sm:p-4 md:p-6 overflow-y-auto">
             {/* Header Row */}
-            <div className="flex items-center justify-between mb-5">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 mb-4 sm:mb-5">
               <h2 className="text-xl font-bold text-gray-800">
                 {sidebarActive === 'dashboard'
                   ? 'All Tasks'
@@ -302,7 +302,7 @@ export default function Dashboard() {
                   setEditTask(null)
                   setShowForm(true)
                 }}
-                className="flex items-center gap-2 text-sm font-semibold text-gray-700 border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-50 transition-colors"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-gray-700 border border-gray-300 rounded-lg px-3 sm:px-4 py-2.5 sm:py-2 hover:bg-gray-50 transition-colors active:bg-gray-100"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
@@ -313,12 +313,12 @@ export default function Dashboard() {
 
             {/* Filter Tabs */}
             {sidebarActive === 'dashboard' && (
-              <div className="flex items-center gap-2 mb-5">
+              <div className="flex items-center gap-1 sm:gap-2 mb-4 sm:mb-5 overflow-x-auto pb-1">
                 {filterTabs.map((tab) => (
                   <button
                     key={tab.key}
                     onClick={() => setFilter(tab.key)}
-                    className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                    className={`px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${"}
                       filter === tab.key
                         ? 'bg-indigo-600 text-white'
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -331,46 +331,46 @@ export default function Dashboard() {
             )}
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-3 gap-4 mb-6">
-              <div className="bg-white border border-gray-200 rounded-xl p-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 mb-5 sm:mb-6">
+              <div className="bg-white border border-gray-200 rounded-lg sm:rounded-xl p-3 sm:p-4">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="w-2 h-2 rounded-full bg-indigo-500" />
-                  <span className="text-xs text-gray-400 font-medium uppercase">Total Tasks</span>
+                  <span className="text-[10px] sm:text-xs text-gray-400 font-medium uppercase">Total Tasks</span>
                 </div>
-                <p className="text-2xl font-bold text-gray-800">{counts.all}</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-800">{counts.all}</p>
               </div>
-              <div className="bg-white border border-gray-200 rounded-xl p-4">
+              <div className="bg-white border border-gray-200 rounded-lg sm:rounded-xl p-3 sm:p-4">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="w-2 h-2 rounded-full bg-yellow-500" />
-                  <span className="text-xs text-gray-400 font-medium uppercase">In Progress</span>
+                  <span className="text-[10px] sm:text-xs text-gray-400 font-medium uppercase">In Progress</span>
                 </div>
-                <p className="text-2xl font-bold text-gray-800">{counts['in-progress']}</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-800">{counts['in-progress']}</p>
               </div>
-              <div className="bg-white border border-gray-200 rounded-xl p-4">
+              <div className="bg-white border border-gray-200 rounded-lg sm:rounded-xl p-3 sm:p-4">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="w-2 h-2 rounded-full bg-green-500" />
-                  <span className="text-xs text-gray-400 font-medium uppercase">Completed</span>
+                  <span className="text-[10px] sm:text-xs text-gray-400 font-medium uppercase">Completed</span>
                 </div>
-                <p className="text-2xl font-bold text-gray-800">{counts.done}</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-800">{counts.done}</p>
               </div>
             </div>
 
             {/* Task Groups */}
             {displayTasks.length === 0 ? (
-              <div className="text-center py-16">
-                <div className="text-4xl mb-3">📝</div>
-                <p className="text-gray-400 text-sm">No tasks found. Create one!</p>
+              <div className="text-center py-8 sm:py-16">
+                <div className="text-3xl sm:text-4xl mb-2 sm:mb-3">📝</div>
+                <p className="text-gray-400 text-xs sm:text-sm">No tasks found. Create one!</p>
               </div>
             ) : (
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {Object.entries(groupedTasks).map(
                   ([status, statusTasks]) =>
                     statusTasks.length > 0 && (
                       <div key={status}>
-                        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">
+                        <p className="text-[10px] sm:text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2 sm:mb-3">
                           {statusGroupLabels[status]}
                         </p>
-                        <div className="space-y-3">
+                        <div className="space-y-2 sm:space-y-3">
                           {statusTasks.map((task) => (
                             <TaskCard
                               key={task._id}
