@@ -393,6 +393,95 @@ export default function Dashboard() {
         </div>
       </div>
 
+      {/* Mobile Sidebar Modal */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 z-40 lg:hidden">
+          {/* Overlay */}
+          <div
+            className="fixed inset-0 bg-black/50"
+            onClick={() => setSidebarOpen(false)}
+          />
+          
+          {/* Sidebar */}
+          <aside className="fixed left-0 top-0 bottom-0 w-64 bg-white border-r border-gray-200 p-4 overflow-y-auto flex flex-col">
+            {/* Close Button */}
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-lg font-bold text-gray-800">Menu</h3>
+              <button
+                onClick={() => setSidebarOpen(false)}
+                className="p-1 hover:bg-gray-100 rounded-lg transition"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* MENU Section */}
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Menu</p>
+            <nav className="space-y-1 mb-6">
+              {sidebarMenu.map((item) => {
+                const isActive = sidebarActive === item.key
+                return (
+                  <button
+                    key={item.key}
+                    onClick={() => {
+                      handleSidebarClick(item.key)
+                      setSidebarOpen(false)
+                    }}
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors relative ${
+                      isActive
+                        ? 'bg-indigo-50 text-indigo-700'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800'
+                    }`}
+                  >
+                    {isActive && (
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-indigo-600 rounded-r-full" />
+                    )}
+                    <span className={isActive ? 'text-indigo-600' : 'text-gray-400'}>
+                      {item.icon}
+                    </span>
+                    <span className="flex-1 text-left">{item.label}</span>
+                    <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${isActive ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-500'}`}>
+                      {item.count}
+                    </span>
+                  </button>
+                )
+              })}
+            </nav>
+
+            {/* PRIORITY Section */}
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Priority</p>
+            <nav className="space-y-1">
+              {priorityItems.map((item) => {
+                const isActive = priorityFilter === item.key
+                return (
+                  <button
+                    key={item.key}
+                    onClick={() => {
+                      setPriorityFilter(isActive ? null : item.key)
+                      setSidebarOpen(false)
+                    }}
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                      isActive
+                        ? 'bg-gray-100 text-gray-800'
+                        : 'text-gray-600 hover:bg-gray-50'
+                    }`}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className={`w-4 h-4 ${item.color}`} viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M3 6a3 3 0 013-3h1.172a3 3 0 012.12.879l.83.828A1 1 0 0010.828 5H14a3 3 0 013 3v1H3V6z" />
+                      <path fillRule="evenodd" d="M3 9h14v5a3 3 0 01-3 3H6a3 3 0 01-3-3V9zm5 3a1 1 0 00-1 1v1a1 1 0 102 0v-1a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                    <span className="flex-1 text-left">{item.label}</span>
+                    {isActive && <span className={`w-2 h-2 rounded-full ${item.dotColor}`} />}
+                  </button>
+                )
+              })}
+            </nav>
+          </aside>
+        </div>
+      )}
+
       {/* Task Form Modal */}
       {showForm && (
         <TaskForm
