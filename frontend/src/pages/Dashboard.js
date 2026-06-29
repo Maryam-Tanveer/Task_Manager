@@ -13,6 +13,7 @@ export default function Dashboard() {
   const [showForm, setShowForm] = useState(false)
   const [editTask, setEditTask] = useState(null)
   const [sidebarActive, setSidebarActive] = useState('dashboard')
+ const [sidebarOpen, setSidebarOpen] = useState(false)
   const navigate = useNavigate()
 
   
@@ -196,12 +197,12 @@ export default function Dashboard() {
       {/* Outer dashed card container */}
       <div className="max-w-7xl mx-auto border-2 border-dashed border-gray-300 rounded-2xl bg-white min-h-[calc(100vh-4rem)] flex flex-col">
         {/* Navbar */}
-        <Navbar />
+        <Navbar setSidebarOpen={setSidebarOpen}/>
 
         {/* Body: Sidebar + Content */}
-        <div className="flex flex-1 overflow-hidden">
+        <div className="flex flex-col lg:flex-row flex-1 overflow-hidden">
           {/* ====== LEFT SIDEBAR ====== */}
-          <aside className="w-60 border-r border-gray-200 p-5 flex flex-col shrink-0">
+          <aside className="hidden lg:flex w-60 border-r border-gray-200 p-5 flex-col shrink-0">
             {/* MENU Section */}
             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">
               Menu
