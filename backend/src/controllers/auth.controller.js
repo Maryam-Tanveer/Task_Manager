@@ -38,9 +38,12 @@ exports.register = async (req, res) => {
 
     logger.info(`✅ User registered: ${email}`);
 
+    const token = user.generateAuthToken();
+
     res.status(201).json({
       success: true,
       message: 'User registered successfully',
+      token,
       data: {
         id: user._id,
         name: user.name,
@@ -98,10 +101,12 @@ exports.login = async (req, res) => {
 
     logger.info(`✅ User login: ${email}`);
 
+    const token = user.generateAuthToken();
+
     res.json({
       success: true,
       message: 'Login successful',
-      token: 'sample_jwt_token', // TODO: Generate JWT token
+      token,
       data: {
         id: user._id,
         name: user.name,

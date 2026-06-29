@@ -7,6 +7,7 @@ const usersRoutes = require('./users.routes');
 const productsRoutes = require('./products.routes');
 const ordersRoutes = require('./orders.routes');
 const wishlistRoutes = require('./wishlist.routes');
+const tasksRoutes = require('./tasks.routes');
 
 // Mount routes
 router.use('/auth', authRoutes);
@@ -14,6 +15,7 @@ router.use('/users', usersRoutes);
 router.use('/products', productsRoutes);
 router.use('/orders', ordersRoutes);
 router.use('/wishlist', wishlistRoutes);
+router.use('/tasks', tasksRoutes);
 
 // API version info
 router.get('/', (req, res) => {

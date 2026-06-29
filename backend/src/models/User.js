@@ -94,6 +94,23 @@ userSchema.methods.comparePassword = async function (enteredPassword) {
 };
 
 /**
+ * Method: Generate auth token
+ */
+userSchema.methods.generateAuthToken = function () {
+  const payload = {
+    id: this._id,
+    email: this.email,
+    role: this.role,
+  };
+
+  return require('jsonwebtoken').sign(
+    payload,
+    process.env.JWT_SECRET || 'your-secret-key',
+    { expiresIn: '7d' }
+  );
+};
+
+/**
  * Method: Get user data without sensitive fields
  */
 userSchema.methods.toJSON = function () {
