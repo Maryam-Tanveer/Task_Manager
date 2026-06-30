@@ -318,7 +318,7 @@ export default function Dashboard() {
                   <button
                     key={tab.key}
                     onClick={() => setFilter(tab.key)}
-                    className={`px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${"}
+                    className={`px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                       filter === tab.key
                         ? 'bg-indigo-600 text-white'
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200'

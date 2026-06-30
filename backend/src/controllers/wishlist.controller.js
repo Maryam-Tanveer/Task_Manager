@@ -1,5 +1,4 @@
 const Wishlist = require('../models/Wishlist');
-const Product = require('../models/Product');
 const logger = require('../utils/logger');
 const mongoose = require('mongoose');
 
